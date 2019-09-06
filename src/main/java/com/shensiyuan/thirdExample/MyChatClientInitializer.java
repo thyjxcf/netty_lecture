@@ -9,21 +9,19 @@ import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 import io.netty.util.CharsetUtil;
 
-
 /**
  * Designed By luf
  *
  * @author luf
- * @date 2019/9/5 18:13
+ * @date 2019/9/6 14:47
  */
-public class MyChatServerInitializer extends ChannelInitializer<SocketChannel> {
-
+public class MyChatClientInitializer extends ChannelInitializer<SocketChannel> {
     @Override
     protected void initChannel(SocketChannel ch) throws Exception {
         ChannelPipeline pipeline = ch.pipeline();
         pipeline.addLast(new DelimiterBasedFrameDecoder(4096, Delimiters.lineDelimiter()));
         pipeline.addLast(new StringDecoder(CharsetUtil.UTF_8));
         pipeline.addLast(new StringEncoder(CharsetUtil.UTF_8));
-        pipeline.addLast(new MyChatServerHandler());
+        pipeline.addLast(new MyChatClientHandler());
     }
 }
