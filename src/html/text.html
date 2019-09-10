@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script type="text/javascript">
+    var socket;
+    if (window.WebSocket) {
+        socket = new WebSocket("ws://localhost:8899/ws");
+        socket.onmessage = function (event) {
+            var ta = document.getElementById("responseText");
+            ta.value = ta.value + "\n" + event.data;
+            
+        }
+        socket.onopen = function (event) {
+            var ta = document.getElementById("responseText");
+            ta.value = "连接开启";
+
+        }
+        socket.onclose = function (event) {
+            var ta = document.getElementById("responseText");
+            ta.value = ta.value +"\n"+ "连接关闭";
+        }
+    }else{
+        alert("浏览器不支持");
+    }
+    function onsend() {
+        if (!window.WebSocket) {
+            return;
+        }
+        if (socket.readyState == WebSocket.OPEN) {
+            var message = document.getElementById("message");
+            socket.send(message.value);
+        }
+        // socket
+
+    }
+</script>
+<form>
+    <textarea id="message" style="width:400px;height:300px" ></textarea>
+    <input type="button" value="发送数据" onclick="onsend();" />
+    <h3>服务端输出</h3>
+    <textarea id="responseText" style="width: 400px;height:300px;"></textarea>
+    <input type="button" value="清除数据" onclick="javascript:document.getElementById('responseText').value=''" />
+
+</form>
+</body>
+</html>
